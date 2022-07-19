@@ -272,8 +272,12 @@ paths:
     post:
       tags:
         - Metric
-      summary: Calculate Metric
-      description: This is a dummy endpoint to make space for the Metric group
+      summary: Calculates Metric
+      description: |-
+        function that return metrics of the image.
+
+        @inputs: List of uploaded images
+        @output: Dict with the key as the name of the image and value as another dict of metrics like IOU,PPA,mAP,mAR,F1,No of classes,inter-line/inter-word,doc Level entropy of layout
       operationId: calculate_metric_v0_1_metric_post
       responses:
         '200':
@@ -281,151 +285,232 @@ paths:
           content:
             application/json:
               schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /v0.1/classes:
+    post:
+      tags:
+        - Classes
+      summary: Returns Classes
+      description: |-
+        function that returns classes of the Image.
+        
+        @inputs: List of uploaded images
+        @output: Dict with the key as the name of the image and value as another dict of Classes like Line,Word,Paragraph,Picture,Table,Header/Footer
+      operationId: calculate_classes_v0_1_classes_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /v0.1/geometry:
+    post:
+      tags:
+        - Geometry
+      summary: Returns Geometry
+      description: |-
+        function that returns Geometry of the Image.
+        
+        @inputs: List of uploaded images
+        @output: Dict with the key as the name of the image and value as another dict of geometry like box & polygon.
+      operationId: calculate_geometry_v0_1_geometry_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /v0.1/auxiliary:
+    post:
+      tags:
+        - Auxiliary
+      summary: Returns Auxiliary Data
+      description: |-
+        function that returns auxiliary data of the image.
+        
+        @inputs: List of uploaded images
+        @output: Dict with the key as the name of the image and value as another dict with of document level information in json format like Modality, Language, Category with elements like form,receipt,toc,magzine,newspaper,manuscript,report) and font style.
+      operationId: calculate_auxiliary_v0_1_auxiliary_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
       security:
         - OAuth2PasswordBearer: []
 components:
-  schemas:
-    Body_binarize_image_v0_1_preprocess_binarize_post:
-      title: Body_binarize_image_v0_1_preprocess_binarize_post
-      required:
-        - image
-      type: object
-      properties:
-        image:
-          title: Image
-          type: string
-          format: binary
-    Body_get_image_colors_v0_1_preprocess_color_post:
-      title: Body_get_image_colors_v0_1_preprocess_color_post
-      required:
-        - image
-      type: object
-      properties:
-        image:
-          title: Image
-          type: string
-          format: binary
-    Body_get_image_fonts_v0_1_preprocess_font_post:
-      title: Body_get_image_fonts_v0_1_preprocess_font_post
-      required:
-        - image
-      type: object
-      properties:
-        image:
-          title: Image
-          type: string
-          format: binary
-    Body_get_image_languages_v0_1_preprocess_language_post:
-      title: Body_get_image_languages_v0_1_preprocess_language_post
-      required:
-        - image
-      type: object
-      properties:
-        image:
-          title: Image
-          type: string
-          format: binary
-    Body_get_image_modalitys_v0_1_preprocess_modality_post:
-      title: Body_get_image_modalitys_v0_1_preprocess_modality_post
-      required:
-        - image
-      type: object
-      properties:
-        image:
-          title: Image
-          type: string
-          format: binary
-    Body_get_image_scripts_v0_1_preprocess_script_post:
-      title: Body_get_image_scripts_v0_1_preprocess_script_post
-      required:
-        - image
-      type: object
-      properties:
-        image:
-          title: Image
-          type: string
-          format: binary
-    Body_grayscale_image_v0_1_preprocess_grayscale_post:
-      title: Body_grayscale_image_v0_1_preprocess_grayscale_post
-      required:
-        - image
-      type: object
-      properties:
-        image:
-          title: Image
-          type: string
-          format: binary
-    Body_login_v0_1_auth_login_post:
-      title: Body_login_v0_1_auth_login_post
-      required:
-        - username
-        - password
-      type: object
-      properties:
-        grant_type:
-          title: Grant Type
-          pattern: password
-          type: string
-        username:
-          title: Username
-          type: string
-        password:
-          title: Password
-          type: string
-        scope:
-          title: Scope
-          type: string
-          default: ''
-        client_id:
-          title: Client Id
-          type: string
-        client_secret:
-          title: Client Secret
-          type: string
-    Body_perform_ocr_v0_1_ocr_post:
-      title: Body_perform_ocr_v0_1_ocr_post
-      required:
-        - images
-      type: object
-      properties:
-        images:
-          title: Images
-          type: array
-          items:
+    schemas:
+      Body_binarize_image_v0_1_preprocess_binarize_post:
+        title: Body_binarize_image_v0_1_preprocess_binarize_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
             type: string
             format: binary
-    HTTPValidationError:
-      title: HTTPValidationError
-      type: object
-      properties:
-        detail:
-          title: Detail
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    ValidationError:
-      title: ValidationError
-      required:
-        - loc
-        - msg
-        - type
-      type: object
-      properties:
-        loc:
-          title: Location
-          type: array
-          items:
+      Body_get_image_colors_v0_1_preprocess_color_post:
+        title: Body_get_image_colors_v0_1_preprocess_color_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
             type: string
-        msg:
-          title: Message
-          type: string
-        type:
-          title: Error Type
-          type: string
-  securitySchemes:
-    OAuth2PasswordBearer:
-      type: oauth2
-      flows:
-        password:
-          scopes: {}
-          tokenUrl: auth/login
+            format: binary
+      Body_get_image_fonts_v0_1_preprocess_font_post:
+        title: Body_get_image_fonts_v0_1_preprocess_font_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_languages_v0_1_preprocess_language_post:
+        title: Body_get_image_languages_v0_1_preprocess_language_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_modalitys_v0_1_preprocess_modality_post:
+        title: Body_get_image_modalitys_v0_1_preprocess_modality_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_scripts_v0_1_preprocess_script_post:
+        title: Body_get_image_scripts_v0_1_preprocess_script_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_grayscale_image_v0_1_preprocess_grayscale_post:
+        title: Body_grayscale_image_v0_1_preprocess_grayscale_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_login_v0_1_auth_login_post:
+        title: Body_login_v0_1_auth_login_post
+        required:
+          - username
+          - password
+        type: object
+        properties:
+          grant_type:
+            title: Grant Type
+            pattern: password
+            type: string
+          username:
+            title: Username
+            type: string
+          password:
+            title: Password
+            type: string
+          scope:
+            title: Scope
+            type: string
+            default: ''
+          client_id:
+            title: Client Id
+            type: string
+          client_secret:
+            title: Client Secret
+            type: string
+      Body_perform_ocr_v0_1_ocr_post:
+        title: Body_perform_ocr_v0_1_ocr_post
+        required:
+          - images
+        type: object
+        properties:
+          images:
+            title: Images
+            type: array
+            items:
+              type: string
+              format: binary
+      HTTPValidationError:
+        title: HTTPValidationError
+        type: object
+        properties:
+          detail:
+            title: Detail
+            type: array
+            items:
+              $ref: '#/components/schemas/ValidationError'
+      ValidationError:
+        title: ValidationError
+        required:
+          - loc
+          - msg
+          - type
+        type: object
+        properties:
+          loc:
+            title: Location
+            type: array
+            items:
+              type: string
+          msg:
+            title: Message
+            type: string
+          type:
+            title: Error Type
+            type: string
+    securitySchemes:
+      OAuth2PasswordBearer:
+        type: oauth2
+        flows:
+          password:
+            scopes: {}
+            tokenUrl: auth/login
