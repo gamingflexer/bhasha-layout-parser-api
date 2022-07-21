@@ -311,13 +311,19 @@ paths:
         @inputs: List of uploaded images
         @output: Dict with the key as the name of the image and value as another dict of Classes like Line,Word,Paragraph,Picture,Table,Header/Footer
       operationId: calculate_classes_v0_1_classes_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_Classes_v0_1_post_request'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Classes_v0_1'
+                $ref: '#/components/schemas/Body_Classes_v0_1_post_response'
         '422':
           description: Validation Error
           content:
@@ -337,13 +343,19 @@ paths:
         @inputs: List of uploaded images
         @output: Dict with the key as the name of the image and value as another dict of geometry like box & polygon.
       operationId: calculate_geometry_v0_1_geometry_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_Geometry_v0_1_post_request'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/geometry_v0_1'
+                $ref: '#/components/schemas/Body_Geometry_v0_1_post_response'
         '422':
           description: Validation Error
           content:
@@ -352,7 +364,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
       security:
         - OAuth2PasswordBearer: []
-  /v0.1/auxiliary:
+  /v0.1/auxiliary/modality:
     post:
       tags:
         - Auxiliary
@@ -361,15 +373,21 @@ paths:
         function that returns auxiliary data of the image.
         
         @inputs: List of uploaded images
-        @output: Dict with the key as the name of the image and value as another dict with of document level information in json format like Modality, Language, Category with elements like form,receipt,toc,magzine,newspaper,manuscript,report) and font style.
+        @output: Dict with the key as the name of the image and value as another dict with of document level information in json format of Modality.
       operationId: calculate_auxiliary_v0_1_auxiliary_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_get_image_modalitys_v0_1_preprocess_modality_request'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Body_Geometry_v0_1_post'
+                $ref: '#/components/schemas/Body_Auxilary_v0_1_post_response'
         '422':
           description: Validation Error
           content:
@@ -378,6 +396,103 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
       security:
         - OAuth2PasswordBearer: []
+  /v0.1/auxiliary/language:
+    post:
+      tags:
+        - Auxiliary
+      summary: Returns Auxiliary Data
+      description: |-
+        function that returns auxiliary data of the image.
+        
+        @inputs: List of uploaded images
+        @output: Dict with the key as the name of the image and value as another dict with of document level information in json format of Language.
+      operationId: calculate_auxiliary_v0_1_auxiliary_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_get_image_languages_v0_1_preprocess_language_request'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Body_Auxilary_v0_1_post_response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /v0.1/auxiliary/category:
+    post:
+      tags:
+        - Auxiliary
+      summary: Returns Auxiliary Data
+      description: |-
+        function that returns auxiliary data of the image.
+        
+        @inputs: List of uploaded images
+        @output: Dict with the key as the name of the image and value as another dict with of document level information in json format of Category with elements like form,receipt,toc,magzine,newspaper,manuscript,report).
+      operationId: calculate_auxiliary_v0_1_auxiliary_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_get_image_modalitys_v0_1_preprocess_category_request'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Body_Auxilary_v0_1_post_response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+  /v0.1/auxiliary/font:
+    post:
+      tags:
+        - Auxiliary
+      summary: Returns Auxiliary Data
+      description: |-
+        function that returns auxiliary data of the image.
+        
+        @inputs: List of uploaded images
+        @output: Dict with the key as the name of the image and value as another dict with of document level information in json format of font style.
+      operationId: calculate_auxiliary_v0_1_auxiliary_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_get_image_fonts_v0_1_preprocess_font_post_request'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Body_Auxilary_v0_1_post_response'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - OAuth2PasswordBearer: []
+
 components:
     schemas:
       Body_binarize_image_v0_1_preprocess_binarize_post:
@@ -400,7 +515,7 @@ components:
             title: Image
             type: string
             format: binary
-      Body_get_image_fonts_v0_1_preprocess_font_post:
+      Body_get_image_fonts_v0_1_preprocess_font_post_request:
         title: Body_get_image_fonts_v0_1_preprocess_font_post
         required:
           - image
@@ -410,26 +525,37 @@ components:
             title: Image
             type: string
             format: binary
-      Body_get_image_languages_v0_1_preprocess_language_post:
+      Body_get_image_languages_v0_1_preprocess_language_request:
         title: Body_get_image_languages_v0_1_preprocess_language_post
         required:
           - image
         type: object
         properties:
-          image:
+          Image:
             title: Image
             type: string
             format: binary
-      Body_get_image_modalitys_v0_1_preprocess_modality_post:
+      Body_get_image_modalitys_v0_1_preprocess_modality_request:
         title: Body_get_image_modalitys_v0_1_preprocess_modality_post
         required:
           - image
         type: object
         properties:
-          image:
+          Image:
             title: Image
             type: string
             format: binary
+      Body_get_image_modalitys_v0_1_preprocess_category_request:
+        title: Body_get_image_modalitys_v0_1_preprocess_modality_post
+        required:
+          - image
+        type: object
+        properties:
+          Image:
+            title: Image
+            type: string
+            format: binary
+
       Body_get_image_scripts_v0_1_preprocess_script_post:
         title: Body_get_image_scripts_v0_1_preprocess_script_post
         required:
@@ -485,9 +611,9 @@ components:
         type: object
         properties:
           Image:
-            title: IOU
-            pattern: password
-            type: object
+            title: Image
+            type: string
+            format: binary
           client_id:
             title: Client Id
             type: string
