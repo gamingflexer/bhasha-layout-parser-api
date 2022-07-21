@@ -279,12 +279,19 @@ paths:
         @inputs: List of uploaded images
         @output: Dict with the key as the name of the image and value as another dict of metrics like IOU,PPA,mAP,mAR,F1,No of classes,inter-line/inter-word,doc Level entropy of layout
       operationId: calculate_metric_v0_1_metric_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_Metric_v0_1_post_request'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema: 
+                $ref: '#/components/schemas/Body_Metric_v0_1_post_response'
         '422':
           description: Validation Error
           content:
@@ -309,7 +316,8 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema: 
+                $ref: '#/components/schemas/Classes_v0_1'
         '422':
           description: Validation Error
           content:
@@ -334,7 +342,8 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema: 
+                $ref: '#/components/schemas/geometry_v0_1'
         '422':
           description: Validation Error
           content:
@@ -359,7 +368,8 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema: 
+                $ref: '#/components/schemas/Body_Geometry_v0_1_post'
         '422':
           description: Validation Error
           content:
@@ -461,6 +471,67 @@ components:
             title: Scope
             type: string
             default: ''
+          client_id:
+            title: Client Id
+            type: string
+          client_secret:
+            title: Client Secret
+            type: string
+      Body_Metric_v0_1_post_request:
+        title: Body_Geometry_v0_1_post
+        required:
+          - client_id
+          - client_secret
+        type: object
+        properties:
+          Image:
+            title: IOU
+            pattern: password
+            type: object
+          client_id:
+            title: Client Id
+            type: string
+          client_secret:
+            title: Client Secret
+            type: string
+      Body_Metric_v0_1_post_response:
+        title: Metric_v0_1
+        required:
+          - image
+        type: object
+        properties:
+          iou:
+            title: IOU
+            pattern: password
+            type: number
+            default: 0.22
+          ppa:
+            title: PPA
+            type: number
+            default: 0.22
+          map:
+            title: mAP
+            type: number
+            default: 0.22
+          mar:
+            title: mAR
+            type: number
+            default: 0.22
+          f1:
+            title: F1 Score
+            type: number
+            default: 0.22
+          no_of_classes:
+            title: Classes Detected in the Image
+            type: number
+            default: 3
+          il_iw:
+            title: Inter Line/ Inter word
+            type: number
+            default: 0.22
+          doc_lvl_entropy:
+            title: Document level entropy of layout
+            type: number
           client_id:
             title: Client Id
             type: string
