@@ -14,14 +14,15 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Body_login_v0_1_auth_login_post'
+              $ref: '#/components/schemas/Body_login_v0_1_auth_login_post_request'
         required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/Body_login_v0_1_auth_login_post_response'
         '422':
           description: Validation Error
           content:
@@ -35,12 +36,19 @@ paths:
       summary: Logout User
       description: Endpoint for logging out the user
       operationId: logout_user_v0_1_auth_logout_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_logout_v0_1_auth_logout_post_request'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/Body_logout_v0_1_auth_logout_post_response'
       security:
         - OAuth2PasswordBearer: []
   /v0.1/users/me:
@@ -55,7 +63,12 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/Body_user_v0_1_user_get_response'
+        "400":
+          description: "Invalid username supplied"
+        "404":
+          description: "User not found"
       security:
         - OAuth2PasswordBearer: []
     patch:
@@ -64,12 +77,23 @@ paths:
       summary: Update Users
       description: Update the user details for current user.
       operationId: update_users_v0_1_users_me_patch
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_user_v0_1_user_put_request'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/Body_user_v0_1_user_put_response'
+        "400":
+          description: "Invalid username supplied"
+        "404":
+          description: "User not found"
       security:
         - OAuth2PasswordBearer: []
   /v0.1/preprocess/binarize:
@@ -83,14 +107,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Body_binarize_image_v0_1_preprocess_binarize_post'
+              $ref: '#/components/schemas/Body_binarize_image_v0_1_preprocess_binarize_post_request'
         required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/Body_binarize_image_v0_1_preprocess_binarize_post_response'
         '422':
           description: Validation Error
           content:
@@ -110,14 +135,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Body_grayscale_image_v0_1_preprocess_grayscale_post'
+              $ref: '#/components/schemas/Body_grayscale_image_v0_1_preprocess_grayscale_post_request'
         required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema: 
+                $ref: '#/components/schemas/Body_grayscale_image_v0_1_preprocess_grayscale_post_response'
         '422':
           description: Validation Error
           content:
@@ -137,14 +163,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Body_get_image_colors_v0_1_preprocess_color_post'
+              $ref: '#/components/schemas/Body_get_image_colors_v0_1_preprocess_color_post_request'
         required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema: 
+                $ref: '#/components/schemas/Body_get_image_colors_v0_1_preprocess_color_post_response'
         '422':
           description: Validation Error
           content:
@@ -164,14 +191,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Body_get_image_font_v0_1_preprocess_language_post'
+              $ref: '#/components/schemas/Body_get_image_fonts_v0_1_preprocess_font_post_request'
         required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/Body_get_image_fonts_v0_1_preprocess_font_post_response'
         '422':
           description: Validation Error
           content:
@@ -191,14 +219,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Body_get_image_propeties_v0_1_preprocess_properties_post'
+              $ref: '#/components/schemas/Body_get_image_propeties_v0_1_preprocess_properties_post_request'
         required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema: 
+                $ref: '#/components/schemas/Body_get_image_propeties_v0_1_preprocess_properties_post_response'
         '422':
           description: Validation Error
           content:
@@ -222,14 +251,15 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Body_perform_ocr_v0_1'
+              $ref: '#/components/schemas/Body_perform_ocr_v0_1_ocr_post_request'
         required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/Body_perform_ocr_v0_1_ocr_post_response'
         '422':
           description: Validation Error
           content:
@@ -300,6 +330,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
       security:
         - OAuth2PasswordBearer: []
+        
   /v0.1/classes:
     post:
       tags:
@@ -387,7 +418,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Body_Auxilary_v0_1_post_response'
+                $ref: '#/components/schemas/Body_get_image_modalitys_v0_1_preprocess_modality_response'
         '422':
           description: Validation Error
           content:
@@ -396,6 +427,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
       security:
         - OAuth2PasswordBearer: []
+        
   /v0.1/auxiliary/language:
     post:
       tags:
@@ -419,7 +451,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Body_Auxilary_v0_1_post_response'
+                $ref: '#/components/schemas/Body_get_image_languages_v0_1_preprocess_language_response'
         '422':
           description: Validation Error
           content:
@@ -450,8 +482,8 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/Body_Auxilary_v0_1_post_response'
+              schema:
+                $ref: '#/components/schemas/Body_get_image_modalitys_v0_1_preprocess_category_response'
         '422':
           description: Validation Error
           content:
@@ -482,8 +514,8 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/Body_Auxilary_v0_1_post_response'
+              schema:
+                $ref: '#/components/schemas/Body_get_image_fonts_v0_1_preprocess_font_post_response'
         '422':
           description: Validation Error
           content:
@@ -495,89 +527,8 @@ paths:
 
 components:
     schemas:
-      Body_binarize_image_v0_1_preprocess_binarize_post:
-        title: Body_binarize_image_v0_1_preprocess_binarize_post
-        required:
-          - image
-        type: object
-        properties:
-          image:
-            title: Image
-            type: string
-            format: binary
-      Body_get_image_colors_v0_1_preprocess_color_post:
-        title: Body_get_image_colors_v0_1_preprocess_color_post
-        required:
-          - image
-        type: object
-        properties:
-          image:
-            title: Image
-            type: string
-            format: binary
-      Body_get_image_fonts_v0_1_preprocess_font_post_request:
-        title: Body_get_image_fonts_v0_1_preprocess_font_post
-        required:
-          - image
-        type: object
-        properties:
-          image:
-            title: Image
-            type: string
-            format: binary
-      Body_get_image_languages_v0_1_preprocess_language_request:
-        title: Body_get_image_languages_v0_1_preprocess_language_post
-        required:
-          - image
-        type: object
-        properties:
-          Image:
-            title: Image
-            type: string
-            format: binary
-      Body_get_image_modalitys_v0_1_preprocess_modality_request:
-        title: Body_get_image_modalitys_v0_1_preprocess_modality_post
-        required:
-          - image
-        type: object
-        properties:
-          Image:
-            title: Image
-            type: string
-            format: binary
-      Body_get_image_modalitys_v0_1_preprocess_category_request:
-        title: Body_get_image_modalitys_v0_1_preprocess_modality_post
-        required:
-          - image
-        type: object
-        properties:
-          Image:
-            title: Image
-            type: string
-            format: binary
-
-      Body_get_image_scripts_v0_1_preprocess_script_post:
-        title: Body_get_image_scripts_v0_1_preprocess_script_post
-        required:
-          - image
-        type: object
-        properties:
-          image:
-            title: Image
-            type: string
-            format: binary
-      Body_grayscale_image_v0_1_preprocess_grayscale_post:
-        title: Body_grayscale_image_v0_1_preprocess_grayscale_post
-        required:
-          - image
-        type: object
-        properties:
-          image:
-            title: Image
-            type: string
-            format: binary
-      Body_login_v0_1_auth_login_post:
-        title: Body_login_v0_1_auth_login_post
+      Body_login_v0_1_auth_login_post_request:
+        title: Body_login_v0_1_auth_login_post_request
         required:
           - username
           - password
@@ -603,23 +554,211 @@ components:
           client_secret:
             title: Client Secret
             type: string
-      Body_Metric_v0_1_post_request:
-        title: Body_Geometry_v0_1_post
+      Body_login_v0_1_auth_login_post_response:
+        title: Body_login_v0_1_auth_login_post_response
         required:
-          - client_id
-          - client_secret
+          - username
+          - password
         type: object
         properties:
-          Image:
-            title: Image
+          grant_type:
+            title: Grant Type
+            pattern: password
             type: string
-            format: binary
+          username:
+            title: Username
+            type: string
           client_id:
             title: Client Id
             type: string
           client_secret:
             title: Client Secret
             type: string
+      Body_logout_v0_1_auth_logout_post_request:
+        title: Body_logout_v0_1_auth_logout_post_request
+        required:
+          - username
+          - password
+        type: object
+        properties:
+          grant_type:
+            title: Grant Type
+            pattern: password
+            type: string
+          username:
+            title: Username
+            type: string
+          client_id:
+            title: Client Id
+            type: string
+          client_secret:
+            title: Client Secret
+            type: string
+      Body_logout_v0_1_auth_logout_post_response:
+        title: Body_logout_v0_1_auth_logout_post_response
+        default:
+          description: "successful operation"
+      Body_user_v0_1_user_get_response:
+        title: Body_login_v0_1_auth_login_post
+        default:
+          data: "User data"
+      Body_user_v0_1_user_put_request:
+        title: Body_login_v0_1_auth_login_post
+        required:
+          - username
+        type: object
+        properties:
+          username:
+            title: Username
+            type: string
+          data:
+            title: data
+            type: string
+            default: data to get updated
+      Body_user_v0_1_user_put_response:
+        title: Body_login_v0_1_auth_login_post
+        default:
+          description: "successful operation"
+      Body_binarize_image_v0_1_preprocess_binarize_post_request:
+        title: Body_binarize_image_v0_1_preprocess_binarize_post_request
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_binarize_image_v0_1_preprocess_binarize_post_response:
+        title: Body_binarize_image_v0_1_preprocess_binarize_post_response
+        default:
+          imageBinarize: "[[0,1,0,1]]"
+      Body_grayscale_image_v0_1_preprocess_grayscale_post_request:
+        title: Body_get_image_colors_v0_1_preprocess_color_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_grayscale_image_v0_1_preprocess_grayscale_post_response:
+        title: Body_grayscale_image_v0_1_preprocess_grayscale_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_colors_v0_1_preprocess_color_post_request:
+        title: Body_get_image_colors_v0_1_preprocess_color_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_colors_v0_1_preprocess_color_post_response:
+        title: Body_grayscale_image_v0_1_preprocess_grayscale_post
+        required:
+          - image
+        type: object
+        properties:
+          colors:
+            title: colors
+            type: string
+      Body_get_image_fonts_v0_1_preprocess_font_post_request:
+        title: Body_get_image_fonts_v0_1_preprocess_font_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_fonts_v0_1_preprocess_font_post_response:
+        title: Body_grayscale_image_v0_1_preprocess_grayscale_post
+        required:
+          - image
+        type: object
+        properties:
+          font:
+            title: font
+            type: string
+      Body_get_image_propeties_v0_1_preprocess_properties_post_request:
+        title: Body_get_image_fonts_v0_1_preprocess_font_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_propeties_v0_1_preprocess_properties_post_response:
+        title: Body_grayscale_image_v0_1_preprocess_grayscale_post
+        required:
+          - image
+        type: object
+        properties:
+          noColumn:
+            title: No of Columns
+            type: integer
+          images:
+            title: Images
+            type: boolean
+          table:
+            title: Table
+            type: boolean
+      Body_perform_ocr_v0_1_ocr_post_request:
+        title: Body_perform_ocr_v0_1_ocr_post_request
+        required:
+          - images
+        type: object
+        properties:
+          images:
+            title: Images
+            type: array
+            items:
+              type: string
+              format: binary
+      Body_perform_ocr_v0_1_ocr_post_response:
+        title: Body_perform_ocr_v0_1_ocr_post_response
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: array
+            items:
+              $ref: '#/components/schemas/LayoutData'
+      Body_get_image_scripts_v0_1_preprocess_script_post_request:
+        title: Body_get_image_scripts_v0_1_preprocess_script_post
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: string
+            format: binary
+      Body_Metric_v0_1_post_request:
+        title: Body_get_image_languages_v0_1_preprocess_language_post
+        required:
+          - image
+        type: object
+        properties:
+          Image:
+            title: Image
+            type: string
+            format: binary
       Body_Metric_v0_1_post_response:
         title: Metric_v0_1
         required:
@@ -664,18 +803,115 @@ components:
           client_secret:
             title: Client Secret
             type: string
-      Body_perform_ocr_v0_1_ocr_post:
-        title: Body_perform_ocr_v0_1_ocr_post
+            
+      Body_Classes_v0_1_post_request:
+        title: Body_get_image_languages_v0_1_preprocess_language_post
         required:
-          - images
+          - image
+        type: object
+        properties:
+          Image:
+            title: Image
+            type: string
+            format: binary
+      Body_Classes_v0_1_post_response:
+        title: Body_perform_ocr_v0_1_ocr_post_response
+        required:
+          - image
+        type: object
+        properties:
+          images:
+            title: Image
+            type: array
+            items:
+              $ref: '#/components/schemas/ClassesData'
+
+      Body_Geometry_v0_1_post_request:
+        title: Body_Geometry_v0_1_post_request
+        required:
+          - image
+        type: object
+        properties:
+          Image:
+            title: Image
+            type: string
+            format: binary
+      Body_Geometry_v0_1_post_response:
+        title: Body_Geometry_v0_1_post_response
+        required:
+          - image
         type: object
         properties:
           images:
             title: Images
             type: array
             items:
-              type: string
-              format: binary
+              $ref: '#/components/schemas/GeometryData'
+
+      Body_get_image_languages_v0_1_preprocess_language_request:
+        title: Body_get_image_languages_v0_1_preprocess_language_request
+        required:
+          - image
+        type: object
+        properties:
+          Image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_languages_v0_1_preprocess_language_response:
+        title: Body_get_image_languages_v0_1_preprocess_language_response
+        required:
+          - image
+        type: object
+        properties:
+          language:
+            title: language
+            type: string
+            format: binary
+
+      Body_get_image_modalitys_v0_1_preprocess_modality_request:
+        title: Body_get_image_modalitys_v0_1_preprocess_modality_request
+        required:
+          - image
+        type: object
+        properties:
+          Image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_modalitys_v0_1_preprocess_modality_response:
+        title: Body_get_image_modalitys_v0_1_preprocess_modality_response
+        required:
+          - image
+        type: object
+        properties:
+          image:
+            title: Image
+            type: array
+            items:
+              $ref: '#/components/schemas/ModalityData'
+
+      Body_get_image_modalitys_v0_1_preprocess_category_request:
+        title: Body_get_image_modalitys_v0_1_preprocess_category_request
+        required:
+          - image
+        type: object
+        properties:
+          Image:
+            title: Image
+            type: string
+            format: binary
+      Body_get_image_modalitys_v0_1_preprocess_category_response:
+        title: Body_get_image_modalitys_v0_1_preprocess_category_response
+        required:
+          - image
+        type: object
+        properties:
+          category:
+            title: category
+            type: string
+            format: binary
+
       HTTPValidationError:
         title: HTTPValidationError
         type: object
@@ -704,6 +940,65 @@ components:
           type:
             title: Error Type
             type: string
+      LayoutData:
+        title: LayoutData
+        required:
+          - block
+          - lines
+          - data
+        type: object
+        properties:
+          block:
+            title: block
+            type: array
+            items:
+              type: string
+          lines:
+            title: lines
+            type: string
+          data:
+            title: data
+            type: string
+      ClassesData:
+        title: LayoutData
+        required:
+          - image
+          - class
+        type: object
+        properties:
+          image:
+            title: image
+            type: string
+          class:
+            title: Class
+            type: string
+      GeometryData:
+        title: LayoutData
+        required:
+          - image
+          - geometry
+        type: object
+        properties:
+          image:
+            title: image
+            type: string
+          geometry:
+            title: geometry
+            type: string
+      ModalityData:
+        title: LayoutData
+        required:
+          - image
+          - data
+        type: object
+        properties:
+          image:
+            title: image
+            type: string
+          data:
+            title: Modality data
+            type: string
+
     securitySchemes:
       OAuth2PasswordBearer:
         type: oauth2
